@@ -49,6 +49,18 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
+  assets:
+    - images/login_bg.png
+    - images/ic_login_name.png
+    - images/ic_login_pwd.png
+
+  fonts:
+    - family: STSONG
+      fonts:
+        - asset: fonts/STSONG.TTF
+        - asset: fonts/STZhongsongB.TTF
+          weight: 600
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
