@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-const songStyle = const TextStyle(
-  fontFamily: 'STSONG',
-);
+import 'package:toast/toast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,6 +8,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  String _account = "";
+  String _psw = "";
+
   @override
   Widget build(BuildContext context) {
     EdgeInsets padding = MediaQuery.of(context).padding;
@@ -37,18 +37,13 @@ class LoginPageState extends State<LoginPage> {
                                 child: Text(
                                   "UC LiVE i-Mgt",
                                   style: TextStyle(
-                                      // fontWeight: FontWeight.w600,
-                                      fontFamily: songStyle.fontFamily,
-                                      color: Colors.white,
-                                      fontSize: 50),
+                                      color: Colors.white, fontSize: 50),
                                 ),
                               ),
                               Text(
                                 "LSH i-Vehicle System for Used Car",
                                 style: TextStyle(
-                                    fontFamily: songStyle.fontFamily,
-                                    color: Colors.white54,
-                                    fontSize: 25),
+                                    color: Colors.white54, fontSize: 25),
                               ),
                             ],
                           )),
@@ -67,21 +62,27 @@ class LoginPageState extends State<LoginPage> {
                             child: Text(
                               "登录",
                               style: TextStyle(
-                                  fontFamily: songStyle.fontFamily,
-                                  fontSize: 16,
-                                  color: Color(0xff214a80)),
+                                  fontSize: 16, color: Color(0xff214a80)),
                             ),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0)),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (_account.length == 0) {
+                                Toast.show("请输入用户名", context,
+                                    gravity: Toast.CENTER);
+                              } else if (_psw.length == 0) {
+                                Toast.show("请输入密码", context,
+                                    gravity: Toast.CENTER);
+                              } else {
+                                Toast.show("登录成功", context,
+                                    gravity: Toast.CENTER);
+                              }
+                            },
                           ),
                         ),
                         Text(
                           "English",
-                          style: TextStyle(
-                              fontFamily: songStyle.fontFamily,
-                              fontSize: 14,
-                              color: Colors.white70),
+                          style: TextStyle(fontSize: 14, color: Colors.white70),
                         )
                       ]),
                       Expanded(flex: 3, child: Container()),
@@ -91,14 +92,17 @@ class LoginPageState extends State<LoginPage> {
                       right: 10,
                       bottom: padding.bottom + 10,
                       child: Text("V1.0.0",
-                          style: TextStyle(
-                              fontFamily: songStyle.fontFamily,
-                              color: Colors.white,
-                              fontSize: 14))),
+                          style: TextStyle(color: Colors.white, fontSize: 14))),
                 ])));
   }
 
   Widget _createInputView(bool isName) {
+    print(">>>>>_createInputView " + (isName ? "account" : "psw"));
+    String defaultStr = isName ? _account : _psw;
+    var _controller = TextEditingController.fromValue(TextEditingValue(
+        text: defaultStr,
+        selection: TextSelection.fromPosition(
+            TextPosition(offset: defaultStr.length))));
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Row(
@@ -114,21 +118,61 @@ class LoginPageState extends State<LoginPage> {
             width: double.infinity,
             height: 60,
             decoration: BoxDecoration(color: Colors.white12),
-            child: Center(
-              child: TextField(
-                cursorColor: Color(0xff214a80),
-                style: TextStyle(
-                    fontFamily: songStyle.fontFamily,
-                    fontSize: 14,
-                    color: Colors.white),
-                decoration: InputDecoration(
-                    filled: true,
-                    border: InputBorder.none,
-                    hintText: isName ? "请输入用户名" : "请输入密码",
-                    hintStyle: TextStyle(
-                        fontFamily: songStyle.fontFamily,
-                        color: Colors.white38)),
-              ),
+            child: Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  onChanged: (str) {
+                    if (isName) {
+                      setState(() {
+                        _account = str;
+                      });
+                    } else {
+                      setState(() {
+                        _psw = str;
+                      });
+                    }
+                  },
+                  controller: _controller,
+                  obscuringCharacter: "*",
+                  obscureText: !isName,
+                  keyboardType: isName
+                      ? TextInputType.text
+                      : TextInputType.visiblePassword,
+                  cursorColor: Color(0xff214a80),
+                  style: TextStyle(fontSize: 14, color: Colors.white),
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.transparent,
+                      border: InputBorder.none,
+                      hintText: isName ? "请输入用户名" : "请输入密码",
+                      hintStyle: TextStyle(color: Colors.white38)),
+                )),
+                Builder(builder: (context) {
+                  if ((isName && _account.length > 0) ||
+                      (!isName && _psw.length > 0)) {
+                    return IconButton(
+                        icon: Icon(
+                          Icons.cancel,
+                          color: Colors.grey,
+                        ),
+                        iconSize: 20,
+                        onPressed: () {
+                          if (isName) {
+                            setState(() {
+                              _account = "";
+                            });
+                          } else {
+                            setState(() {
+                              _psw = "";
+                            });
+                          }
+                        });
+                  } else {
+                    return Text("");
+                  }
+                })
+              ],
             ),
           ))
         ],
