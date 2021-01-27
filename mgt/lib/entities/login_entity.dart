@@ -1,0 +1,39 @@
+import 'package:mgt/generated/json/base/json_convert_content.dart';
+import 'package:mgt/generated/json/base/json_field.dart';
+
+class LoginPagedataData with JsonConvert<LoginPagedataData> {
+	String isappraiser;
+	String displayposition;
+	@JSONField(name: "displayposition_en")
+	String displaypositionEn;
+	String accountname;
+	String ishk;
+	String isstarelite;
+	String dealername;
+	@JSONField(name: "dealername_en")
+	String dealernameEn;
+	String scrole;
+	String itaskversion;
+	String forceupdate;
+	String userauthority;
+	@JSONField(name: "scrole_en")
+	String scroleEn;
+	String sccode;
+	String scname;
+	dynamic scphone;
+	dynamic scingroup;
+	String scbrand;
+	dynamic sclevel;
+	String scisreception;
+	dynamic todaytasknum;
+	String recommendmonth;
+	List<dynamic> maxreserveday;
+	String decodephonenum;
+	String upcode;
+	String uprole;
+	String firstlogin;
+	String issap;
+	String scheadpath;
+	String dealercode;
+	String info;
+}

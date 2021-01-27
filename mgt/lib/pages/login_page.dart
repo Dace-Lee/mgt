@@ -1,6 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mgt/entities/base_entity.dart';
+import 'package:mgt/entities/login_entity.dart';
+import 'package:mgt/entities/page_data.dart';
 import 'package:toast/toast.dart';
+import 'package:mgt/http/http_repository.dart';
+import 'package:mgt/http/api_response.dart';
+import 'package:mgt/http/http_utils.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -74,8 +80,7 @@ class LoginPageState extends State<LoginPage> {
                                 Toast.show("请输入密码", context,
                                     gravity: Toast.CENTER);
                               } else {
-                                Toast.show("登录成功", context,
-                                    gravity: Toast.CENTER);
+                                loginRequest();
                               }
                             },
                           ),
@@ -178,5 +183,20 @@ class LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  void loginRequest() {
+    HttpRepository.login(_account, _psw, context).then((value) {
+      if (value != null) {
+        if (value.data != null && value.data.length > 0) {
+          if (value.data.length > 0) {
+          } else {
+
+          }
+        } else {
+          
+        }
+      }
+    });
   }
 }

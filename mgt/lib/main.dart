@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mgt/pages/login_page.dart';
+import 'http/http_utils.dart';
 
 void main() {
+  HttpUtils.init(
+    baseUrl: "http://40.73.59.203:17522/",
+  );
   runApp(MyApp());
 }
 
